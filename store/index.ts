@@ -58,10 +58,10 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
     GET_CATALOG_ITEMS({ commit }) {
         commit('SET_IS_ERROR_REQUEST', 'pending');
-        // resources of fake Apis: https://github.com/keikaavousi/fake-store-api
         return axios
-            .get('https://fakestoreapi.com/products')
+            .get('https://my-json-server.typicode.com/RadenMahar/fakeapi/catalogs/')
             .then((response) => {
+                console.log(response)
                 commit('SET_CATALOG_ITEMS', response.data);
                 commit('SET_IS_ERROR_REQUEST', 'success');
             })

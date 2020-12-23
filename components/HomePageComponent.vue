@@ -25,7 +25,7 @@
         >
           <img :src="item.image" alt="" />
           <h5 class="category">{{ item.category }}</h5>
-          <p class="title">{{ item.title }}</p>
+          <p>{{ item.title }}</p>
           <h5 class="price">
             {{
               'IDR ' +
@@ -143,5 +143,5 @@ export default class HomePageComponent extends Vue {
       font-weight: bold
       margin-bottom: 15px
     .price
-      font-size: 12px
+      font-size: 14px
 </style>
