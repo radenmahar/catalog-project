@@ -1,65 +1,46 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">catalog</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div>
+    <LazyHydrate when-visible>
+      <HomePageComponent
+        :catalog-items="catalogItems"
+        :handle-click-item="handleClickItem"
+      />
+    </LazyHydrate>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Watch } from 'nuxt-property-decorator'
+import { ICatalog } from '../interfaces/main'
+import LazyHydrate from 'vue-lazy-hydration'
 
-export default Vue.extend({})
+@Component({
+  components: {
+    HomePageComponent: () => import('@/components/HomePageComponent.vue'),
+    LazyHydrate,
+  },
+})
+export default class Index extends Vue {
+  // layout
+  layout() {
+    return 'DefaultLayout'
+  }
+
+  // mounted
+  mounted() {
+    this.$store.dispatch('GET_CATALOG_ITEMS')
+  }
+
+  // computed
+  get catalogItems(): Array<ICatalog> {
+    return this.$store.state.catalogItems
+  }
+
+  // methods
+  handleClickItem(itemId: number) {
+    const itemFound = this.catalogItems.find((item) => item.id === itemId)
+    this.$store.commit('SET_CATALOG_ITEM', itemFound)
+    this.$router.push(`/detail/${itemId}`)
+  }
+}
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
