@@ -69,17 +69,4 @@ export const actions: ActionTree<RootState, RootState> = {
                 commit('SET_IS_ERROR_REQUEST', 'error');
             });
     },
-    GET_CATALOG_ITEM({ commit }, itemId) {
-        commit('SET_IS_ERROR_REQUEST', 'pending');
-        // resources of fake Apis: https://github.com/keikaavousi/fake-store-api
-        return axios
-            .get(`https://fakestoreapi.com/products/${itemId}`)
-            .then((response) => {
-                commit('SET_CATALOG_ITEM', response.data);
-                commit('SET_IS_ERROR_REQUEST', 'success');
-            })
-            .catch(() => {
-                commit('SET_IS_ERROR_REQUEST', 'error');
-            });
-    },
 };
