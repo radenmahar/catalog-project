@@ -60,8 +60,9 @@ export const actions: ActionTree<RootState, RootState> = {
         commit('SET_IS_ERROR_REQUEST', 'pending');
         // resources of fake Apis: https://github.com/keikaavousi/fake-store-api
         return axios
-            .get('https://fakestoreapi.com/products')
+            .get('https://my-json-server.typicode.com/RadenMahar/catalog-project/catalogs/1')
             .then((response) => {
+                console.log(response)
                 commit('SET_CATALOG_ITEMS', response.data);
                 commit('SET_IS_ERROR_REQUEST', 'success');
             })
